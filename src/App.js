@@ -6,19 +6,18 @@ import "./styles.css";
 function App() {
 
   const [repositories, setRepositories] = useState([]);
-  const [isDelete, setIsDelete] = useState(false);
+  
   const [id, setId] = useState([]);
 
   useEffect(() => {
     api.get('/repositories').then(response => {
       setRepositories(response.data);
-      setIsDelete(false);
+     
     })
-  }, [isDelete])
+  }, [])
 
   async function handleAddRepository() {
     const response = await api.post('/repositories', {
-      id: "",
       url: "http://gitblablabla...",
       title: `novo projeto ${Date.now()}`,
       techs: ["Node.js", "Reactjs"]
@@ -29,8 +28,12 @@ function App() {
   }
 
   async function handleRemoveRepository(id) {
-    const response = await api.delete(`/repositories/${id}`);
-    setIsDelete(true);
+    const response = await api.delete(`/repositories/${id}`)
+    
+    const repoIndex = repositories.findIndex(repo => repo.id === id)
+    repositories.splice(repoIndex,1)
+    setRepositories([...repositories])
+
   }
 
   return (
@@ -46,7 +49,7 @@ function App() {
                   Remover
                 </button>
               </li>
-          )};
+          )}
        
       </ul>
 
