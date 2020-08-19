@@ -1,21 +1,44 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import api from './services/api';
 
 import "./styles.css";
 
 function App() {
+
+  const [repositories, setRepositories] = useState([]);
+  const [isDelete, setIsDelete] = useState(false);
+
+  useEffect(() => {
+    api.get('/repositories').then(response => {
+      setRepositories(response.data);
+      setIsDelete(false);
+    })
+  }, [isDelete])
+
   async function handleAddRepository() {
-    // TODO
+    const response = await api.post('/repositories', {
+      title: `novo projeto ${Date.now()}`,
+      url: "http://gitblablabla...",
+      techs: ["Node.js", "Reactjs"]
+    });
+
+    const repository = response.data;
+    setRepositories([ ...repositories, repository]);
   }
 
   async function handleRemoveRepository(id) {
-    // TODO
+    const response = await api.delete(`/repositories/${id}`);
+    setIsDelete(true);
   }
 
   return (
     <div>
       <ul data-testid="repository-list">
         <li>
-          Repositório 1
+          <ul>
+          {repositories.map( repository => <li key={repository.id}>{repository.title}</li>)}
+          </ul>
+          
 
           <button onClick={() => handleRemoveRepository(1)}>
             Remover
