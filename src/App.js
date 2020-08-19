@@ -7,7 +7,7 @@ function App() {
 
   const [repositories, setRepositories] = useState([]);
   const [isDelete, setIsDelete] = useState(false);
-  const [id, setId] = useState('');
+  const [id, setId] = useState([]);
 
   useEffect(() => {
     api.get('/repositories').then(response => {
@@ -26,7 +26,8 @@ function App() {
     const repository = response.data;
     const {id} = response.data;
     setRepositories([ ...repositories, repository]);
-    setId(id);
+    setId([...id, id]);
+    console.log(id);
   }
 
   async function handleRemoveRepository(id) {
@@ -37,16 +38,16 @@ function App() {
   return (
     <div>
       <ul data-testid="repository-list">
-        <li>
-          <ul>
-          {repositories.map( repository => <li key={repository.id}>{repository.title}</li>)}
-          </ul>
-          
-
-          <button onClick={() => handleRemoveRepository(id)}>
+ 
+       
+          {repositories.map( repository => <li key={repository.id}>{repository.title}  
+          <button onClick={() => handleRemoveRepository(repository.id)}>
             Remover
-          </button>
-        </li>
+          </button></li>
+          
+          )}
+      
+       
       </ul>
 
       <button onClick={handleAddRepository}>Adicionar</button>
