@@ -40,7 +40,7 @@ function App() {
           </ul>
           
 
-          <button onClick={() => handleRemoveRepository('')}>
+          <button onClick={() => handleRemoveRepository('ecd6cdf2-3c2b-42b2-8ac6-a464cc9f1711')}>
             Remover
           </button>
         </li>
