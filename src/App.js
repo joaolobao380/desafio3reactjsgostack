@@ -24,9 +24,8 @@ function App() {
     });
 
     const repository = response.data;
-    const {id} = response.data;
     setRepositories([ ...repositories, repository]);
-    setId([...id, id]);
+  
 
   }
 
@@ -39,7 +38,6 @@ function App() {
     <div>
       <ul data-testid="repository-list">
  
-       
           {repositories.map( repository => <li key={repository.id}>{repository.title}  
           <button onClick={() => handleRemoveRepository(repository.id)}>
             Remover
